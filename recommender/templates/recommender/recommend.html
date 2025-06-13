@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Caregiver Recommender</title>
+</head>
+<body>
+  <h1>Caregiver Recommendation</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <label for="query">Enter elderly health condition:</label><br>
+    <textarea id="query" name="query" rows="4" cols="60">{{ request.POST.query|default:'' }}</textarea><br>
+    <button type="submit">Get Recommendations</button>
+  </form>
+
+  {% if result %}
+    <h2>AI Answer</h2>
+    <div style="white-space: pre-line;">{{ result.bullets }}</div>
+    <h3>Source Caregiver Profiles</h3>
+    <ul>
+      {% for doc in result.docs %}
+        <li>{{ doc.page_content }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>
